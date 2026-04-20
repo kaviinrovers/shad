@@ -1,0 +1,81 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 250]
+    },
+    {
+      "parameters": {
+        "authentication": "none",
+        "url": "http://localhost:5177/health",
+        "method": "GET",
+        "responseFormat": "json",
+        "jsonParameters": false,
+        "options": {
+          "headers": {},
+          "timeout": 30000
+        }
+      },
+      "name": "Website Health Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [450, 250]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"body\"][\"status\"]}}",
+              "operation": "notEqual",
+              "value2": "healthy"
+            }
+          ]
+        }
+      },
+      "name": "Check Health Status",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 250]
+    }
+  ],
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Website Health Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Website Health Request": {
+      "main": [
+        [
+          {
+            "node": "Check Health Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "name": "Shadhee Website Health Check",
+  "id": "1"
+}

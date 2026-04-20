@@ -1,0 +1,157 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #ff69b4, #ffb6c1);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  max-width: 500px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+}
+
+header {
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+header p {
+  margin: 10px 0 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.connect-partner {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  justify-content: center;
+}
+
+.connect-partner h2 {
+  color: #ff1493;
+  text-align: center;
+  margin: 0;
+}
+
+.connect-partner input {
+  padding: 12px;
+  border: 2px solid #ffb6c1;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.connect-partner input:focus {
+  outline: none;
+  border-color: #ff69b4;
+  box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+}
+
+.connect-partner button {
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.connect-partner button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+}
+
+.connect-partner button.logout {
+  background: #999;
+  margin-top: 20px;
+}
+
+.connect-partner button.logout:hover {
+  background: #777;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff69b4, #ffb6c1);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.chat-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.back-to-dashboard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 100;
+  border-radius: 0 0 8px 0;
+  transition: background 0.3s;
+  font-size: 14px;
+}
+
+.back-to-dashboard:hover {
+  background: rgba(0, 0, 0, 0.7);
+}

@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "web/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "web/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "web/dist/$1"
+    }
+  ],
+  "env": {
+    "VITE_SERVER_URL": "@vite_server_url",
+    "VITE_ENCRYPTION_KEY": "@vite_encryption_key"
+  }
+}

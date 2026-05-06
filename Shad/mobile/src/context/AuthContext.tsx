@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthApi from '../services/AuthApi';
 import ApiClient from '../services/ApiClient';
+import ChatService from '../services/ChatService';
 
 type User = {
   uid: string;
   email: string;
-  token?: string;
 };
 
 interface UserProfile {
@@ -35,16 +36,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Load user from session on mount
+  // Load user from storage on mount
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const savedToken = localStorage.getItem('shadhee_auth_token');
-        const savedUser = localStorage.getItem('shadhee_user');
+        const savedToken = await AsyncStorage.getItem('shadhee_auth_token');
+        const savedUser = await AsyncStorage.getItem('shadhee_user');
 
         if (savedToken && savedUser) {
           const userData = JSON.parse(savedUser);
           setUser(userData);
+          
+          // Connect chat
+          ChatService.connect(userData.uid);
           
           // Fetch fresh profile from API
           const response = await AuthApi.getProfile();
@@ -54,7 +58,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       } catch (error) {
         console.error('Error initializing auth:', error);
-        logout();
       } finally {
         setLoading(false);
       }
@@ -73,12 +76,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(newUser);
       
       // Save session
-      localStorage.setItem('shadhee_auth_token', token);
-      localStorage.setItem('shadhee_user', JSON.stringify(newUser));
+      await AsyncStorage.setItem('shadhee_auth_token', token);
+      await AsyncStorage.setItem('shadhee_user', JSON.stringify(newUser));
+      
+      // Connect chat
+      ChatService.connect(userId);
       
       // Fetch profile
       const profileResp = await AuthApi.getProfile();
-      if (profileResp.success) {
+      if (profileResp.success && profileResp.data) {
         setUserProfile(profileResp.data);
       }
     } else {
@@ -96,12 +102,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(newUser);
       
       // Save session
-      localStorage.setItem('shadhee_auth_token', token);
-      localStorage.setItem('shadhee_user', JSON.stringify(newUser));
+      await AsyncStorage.setItem('shadhee_auth_token', token);
+      await AsyncStorage.setItem('shadhee_user', JSON.stringify(newUser));
+      
+      // Connect chat
+      ChatService.connect(userId);
       
       // Fetch profile
       const profileResp = await AuthApi.getProfile();
-      if (profileResp.success) {
+      if (profileResp.success && profileResp.data) {
         setUserProfile(profileResp.data);
       }
     } else {
@@ -110,13 +119,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = async () => {
-    try {
-      await AuthApi.logout();
-    } catch (e) {
-      // Ignore logout errors
-    }
-    localStorage.removeItem('shadhee_auth_token');
-    localStorage.removeItem('shadhee_user');
+    await AsyncStorage.removeItem('shadhee_auth_token');
+    await AsyncStorage.removeItem('shadhee_user');
+    ChatService.disconnect();
     setUser(null);
     setUserProfile(null);
   };

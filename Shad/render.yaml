@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: shad-app
+    runtime: node
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: cd ../web && npm install && npm run build && cd ../backend && npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001

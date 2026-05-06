@@ -1,21 +1,28 @@
-# Ignore node_modules and system/user folders
+# Dependencies
 node_modules/
+
+# Build output
+web/dist/
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.production
+backend/serviceAccountKey.json
+
+# System files
 .DS_Store
 *.log
 *.tmp
 *.swp
 *.swo
-.env
 .vscode/
 .cache/
-.git/
 
-# Ignore parent directory files
-../*
+# Mobile build artifacts
+mobile/.expo/
+mobile/android/
+mobile/ios/
 
-# Allow project folders
-!/backend/
-!/web/
-!/docs/
-!/shared/
-!/automation/
+# Old backups
+mobile_old/

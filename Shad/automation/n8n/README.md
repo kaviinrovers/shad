@@ -5,7 +5,7 @@ This folder contains an n8n workflow for health checking your Shadhee website.
 ## What it does
 
 - Runs every minute using the Cron node
-- Calls `http://localhost:5177/health`
+- Calls `http://localhost:3001/health`
 - Checks that the returned JSON `status` field equals `healthy`
 
 ## How to use

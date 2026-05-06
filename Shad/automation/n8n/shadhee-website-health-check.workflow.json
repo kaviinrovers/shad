@@ -18,7 +18,7 @@
     {
       "parameters": {
         "authentication": "none",
-        "url": "http://localhost:5177/health",
+        "url": "http://localhost:3001/health",
         "method": "GET",
         "responseFormat": "json",
         "jsonParameters": false,
